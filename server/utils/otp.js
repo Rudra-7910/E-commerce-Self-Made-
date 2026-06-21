@@ -1,17 +1,10 @@
-import {createTransport} from "nodemailer"
+import { Resend } from "resend";
 import dotenv from "dotenv"
 dotenv.config();
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 const sendOtp= async({email,subject,otp})=>{
-    const transport=createTransport({
-        host :"smtp.gmail.com",
-        port: 465 ,
-        secure: true,
-        family: 4, // Force IPv4 to prevent ENETUNREACH error on Render
-        auth:{
-            user:process.env.GMAIL,
-            pass:process.env.PASSWORD
-        }
-    })
     const html =`<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,11 +51,16 @@ const sendOtp= async({email,subject,otp})=>{
 </body>
 </html>`
 
-    await transport.sendMail({
-        from: process.env.GMAIL,
-        to:email,
-        subject:subject,
-        html:html
-    })
+    const { data, error } = await resend.emails.send({
+        from: process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev",
+        to: email,
+        subject: subject,
+        html: html
+    });
+
+    if (error) {
+        console.error("Resend Error:", error);
+        throw new Error(error.message);
+    }
 }
 export default sendOtp;
