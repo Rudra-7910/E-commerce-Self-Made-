@@ -9,7 +9,7 @@ function AdminProducts() {
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
   const fetchProducts = async () => {
-    const response = await axios.get("https://e-commerce-njbk.onrender.com/api/product/all");
+    const response = await axios.get("http://localhost:3000/api/product/all");
     return response.data;
   };
 
@@ -33,7 +33,7 @@ function AdminProducts() {
         formPayload.append("files", file); // The backend expects 'files' array in multer
       });
 
-      const response = await axios.post("https://e-commerce-njbk.onrender.com/api/product/new", formPayload, {
+      const response = await axios.post("http://localhost:3000/api/product/new", formPayload, {
         headers: { 
           token,
           "Content-Type": "multipart/form-data"
@@ -58,7 +58,7 @@ function AdminProducts() {
   const deleteProductMutation = useMutation({
     mutationFn: async (productId) => {
       const token = localStorage.getItem("token");
-      await axios.delete(`https://e-commerce-njbk.onrender.com/api/product/${productId}`, {
+      await axios.delete(`http://localhost:3000/api/product/${productId}`, {
         headers: { token }
       });
     },

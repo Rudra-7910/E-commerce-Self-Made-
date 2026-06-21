@@ -12,7 +12,7 @@ function Cart() {
 
   const fetchCart = async () => {
     const token = localStorage.getItem("token");
-    const response = await axios.get("https://e-commerce-njbk.onrender.com/api/cart", {
+    const response = await axios.get("http://localhost:3000/api/cart", {
       headers: { token }
     });
     return response.data;
@@ -26,7 +26,7 @@ function Cart() {
   const updateCartMutation = useMutation({
     mutationFn: async ({ id, action }) => {
       const token = localStorage.getItem("token");
-      await axios.put(`https://e-commerce-njbk.onrender.com/api/cart/update?action=${action}`, { id }, {
+      await axios.put(`http://localhost:3000/api/cart/update?action=${action}`, { id }, {
         headers: { token }
       });
     },
@@ -36,7 +36,7 @@ function Cart() {
   const removeFromCartMutation = useMutation({
     mutationFn: async (id) => {
       const token = localStorage.getItem("token");
-      await axios.delete(`https://e-commerce-njbk.onrender.com/api/cart/${id}`, {
+      await axios.delete(`http://localhost:3000/api/cart/${id}`, {
         headers: { token }
       });
     },
@@ -46,7 +46,7 @@ function Cart() {
   const placeOrderMutation = useMutation({
     mutationFn: async (orderData) => {
       const token = localStorage.getItem("token");
-      const response = await axios.post("https://e-commerce-njbk.onrender.com/api/order/new", {
+      const response = await axios.post("http://localhost:3000/api/order/new", {
         ...orderData,
         method: "COD"
       }, {

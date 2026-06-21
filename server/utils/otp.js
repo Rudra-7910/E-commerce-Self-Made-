@@ -1,7 +1,15 @@
+import {createTransport} from "nodemailer"
 import dotenv from "dotenv"
 dotenv.config();
-
 const sendOtp= async({email,subject,otp})=>{
+    const transport=createTransport({
+        host :"smtp.gmail.com",
+        port: 465 ,
+        auth:{
+            user:process.env.GMAIL,
+            pass:process.env.PASSWORD
+        }
+    })
     const html =`<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,37 +56,11 @@ const sendOtp= async({email,subject,otp})=>{
 </body>
 </html>`
 
-    try {
-        const response = await fetch("https://api.brevo.com/v3/smtp/email", {
-            method: "POST",
-            headers: {
-                "accept": "application/json",
-                "content-type": "application/json",
-                "api-key": process.env.BREVO_API_KEY
-            },
-            body: JSON.stringify({
-                sender: {
-                    name: "Shipify E-commerce",
-                    email: process.env.GMAIL // This must be the email verified in Brevo
-                },
-                to: [
-                    {
-                        email: email
-                    }
-                ],
-                subject: subject,
-                htmlContent: html
-            })
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            console.error("Brevo Error:", errorData);
-            throw new Error(errorData.message || "Failed to send email via Brevo");
-        }
-    } catch (error) {
-        console.error("Brevo Catch Error:", error);
-        throw error;
-    }
+    await transport.sendMail({
+        from: process.env.GMAIL,
+        to:email,
+        subject:subject,
+        html:html
+    })
 }
 export default sendOtp;

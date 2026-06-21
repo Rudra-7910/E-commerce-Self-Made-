@@ -5,7 +5,7 @@ import SideBar from '../Components/SideBar'
 function Orders() {
   const fetchOrders= async()=>{
     const token= localStorage.getItem("token");
-    const response= await axios.get("https://e-commerce-njbk.onrender.com/api/order/my",{
+    const response= await axios.get("http://localhost:3000/api/order/my",{
       headers:{
         token,
       },

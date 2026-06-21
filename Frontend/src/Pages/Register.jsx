@@ -12,11 +12,11 @@ function Register() {
     const navigate = useNavigate();
     const { login } = useAuth();
     const RegisterUser = async(data)=>{
-        const response = await axios.post("https://e-commerce-njbk.onrender.com/api/user/register", data)
+        const response = await axios.post("http://localhost:3000/api/user/register", data)
         return response.data
     }
     const verifyUser = async(data)=>{
-        const response = await axios.post("https://e-commerce-njbk.onrender.com/api/user/register/verify", data)
+        const response = await axios.post("http://localhost:3000/api/user/register/verify", data)
         return response.data
     }
     const RegisterMutuation = useMutation({
