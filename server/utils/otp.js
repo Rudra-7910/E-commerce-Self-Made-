@@ -1,8 +1,5 @@
-import { Resend } from "resend";
 import dotenv from "dotenv"
 dotenv.config();
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 const sendOtp= async({email,subject,otp})=>{
     const html =`<!DOCTYPE html>
@@ -51,16 +48,37 @@ const sendOtp= async({email,subject,otp})=>{
 </body>
 </html>`
 
-    const { data, error } = await resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev",
-        to: email,
-        subject: subject,
-        html: html
-    });
+    try {
+        const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+            method: "POST",
+            headers: {
+                "accept": "application/json",
+                "content-type": "application/json",
+                "api-key": process.env.BREVO_API_KEY
+            },
+            body: JSON.stringify({
+                sender: {
+                    name: "Shipify E-commerce",
+                    email: process.env.GMAIL // This must be the email verified in Brevo
+                },
+                to: [
+                    {
+                        email: email
+                    }
+                ],
+                subject: subject,
+                htmlContent: html
+            })
+        });
 
-    if (error) {
-        console.error("Resend Error:", error);
-        throw new Error(error.message);
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error("Brevo Error:", errorData);
+            throw new Error(errorData.message || "Failed to send email via Brevo");
+        }
+    } catch (error) {
+        console.error("Brevo Catch Error:", error);
+        throw error;
     }
 }
 export default sendOtp;
