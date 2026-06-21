@@ -12,11 +12,11 @@ function Login() {
     const navigate = useNavigate();
     const { login } = useAuth();
     const loginUser = async(data)=>{
-        const response = await axios.post("http://localhost:3000/api/user/login", data)
+        const response = await axios.post("https://e-commerce-njbk.onrender.com/api/user/login", data)
         return response.data
     }
     const verifyUser = async(data)=>{
-        const response = await axios.post("http://localhost:3000/api/user/verify", data)
+        const response = await axios.post("https://e-commerce-njbk.onrender.com/api/user/verify", data)
         return response.data
     }
     const loginMutation = useMutation({

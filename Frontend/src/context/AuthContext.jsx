@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
       return;
     }
     try {
-      const response = await axios.get("http://localhost:3000/api/user/me", {
+      const response = await axios.get("https://e-commerce-njbk.onrender.com/api/user/me", {
         headers: { token },
       });
       setUser(response.data);

@@ -3,7 +3,7 @@ import axios from 'axios'
 import SideBar from '../Components/SideBar'
 function Home() {
   const fetchProducts = async () => {
-    const response = await axios.get("http://localhost:3000/api/product/all")
+    const response = await axios.get("https://e-commerce-njbk.onrender.com/api/product/all")
     return response.data
   }
   const { data, isLoading, error } = useQuery({
@@ -13,7 +13,7 @@ function Home() {
   const addToCartMutation = useMutation({
     mutationFn: async (productId) => {
       const token = localStorage.getItem("token")
-      const response = await axios.post("http://localhost:3000/api/cart/add", { product: productId }, {
+      const response = await axios.post("https://e-commerce-njbk.onrender.com/api/cart/add", { product: productId }, {
         headers: { token }
       })
       return response.data

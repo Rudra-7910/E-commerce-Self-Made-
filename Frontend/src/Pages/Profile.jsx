@@ -9,14 +9,14 @@ function Profile() {
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const fetchProfile = async () => {
     const token = localStorage.getItem("token");
-    const response = await axios.get("http://localhost:3000/api/user/me", {
+    const response = await axios.get("https://e-commerce-njbk.onrender.com/api/user/me", {
       headers: { token }
     });
     return response.data;
   };
   const fetchAddresses = async () => {
     const token = localStorage.getItem("token");
-    const response = await axios.get("http://localhost:3000/api/user/address", {
+    const response = await axios.get("https://e-commerce-njbk.onrender.com/api/user/address", {
       headers: { token }
     });
     return response.data;
@@ -35,7 +35,7 @@ function Profile() {
   const addAddressMutation = useMutation({
     mutationFn: async (addressData) => {
       const token = localStorage.getItem("token");
-      const response = await axios.post("http://localhost:3000/api/user/address", addressData, {
+      const response = await axios.post("https://e-commerce-njbk.onrender.com/api/user/address", addressData, {
         headers: { token }
       });
       return response.data;
@@ -53,7 +53,7 @@ function Profile() {
   const deleteAddressMutation = useMutation({
     mutationFn: async (id) => {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:3000/api/user/address/${id}`, {
+      await axios.delete(`https://e-commerce-njbk.onrender.com/api/user/address/${id}`, {
         headers: { token }
       });
     },
