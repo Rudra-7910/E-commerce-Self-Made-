@@ -5,6 +5,8 @@ const sendOtp= async({email,subject,otp})=>{
     const transport=createTransport({
         host :"smtp.gmail.com",
         port: 465 ,
+        secure: true,
+        family: 4, // Force IPv4 to prevent ENETUNREACH error on Render
         auth:{
             user:process.env.GMAIL,
             pass:process.env.PASSWORD
