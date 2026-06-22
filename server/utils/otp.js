@@ -2,6 +2,7 @@ import {createTransport} from "nodemailer"
 import dotenv from "dotenv"
 dotenv.config();
 const sendOtp= async({email,subject,otp})=>{
+    console.log("Sending OTP from email:", process.env.GMAIL);
     const transport=createTransport({
         host: "smtp.gmail.com",
         port: 465,
