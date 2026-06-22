@@ -3,10 +3,10 @@ import dotenv from "dotenv"
 dotenv.config();
 const sendOtp= async({email,subject,otp})=>{
     const transport=createTransport({
-        service: "gmail",
-        host :"smtp.gmail.com",
+        host: "smtp.gmail.com",
         port: 465,
         secure: true,
+        family: 4, // Force IPv4 resolution!
         auth:{
             user:process.env.GMAIL,
             pass:process.env.PASSWORD
@@ -14,7 +14,7 @@ const sendOtp= async({email,subject,otp})=>{
         tls: {
             rejectUnauthorized: false
         }
-    })
+    });
     const html =`<!DOCTYPE html>
 <html lang="en">
 <head>

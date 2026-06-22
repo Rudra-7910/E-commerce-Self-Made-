@@ -3,13 +3,15 @@ import dotenv from "dotenv"
 dotenv.config();
 const sendOrderMail= async({email,subject,orderId,products,totalAmount})=>{
     const transport=createTransport({
-        host :"smtp.gmail.com",
-        port: 465 ,
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        family: 4, // Force IPv4 resolution
         auth:{
             user:process.env.GMAIL,
             pass:process.env.PASSWORD
         }
-    })
+    });
     const productsHtml = products
     .map(
       (product) => `
