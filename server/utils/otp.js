@@ -3,11 +3,16 @@ import dotenv from "dotenv"
 dotenv.config();
 const sendOtp= async({email,subject,otp})=>{
     const transport=createTransport({
+        service: "gmail",
         host :"smtp.gmail.com",
-        port: 465 ,
+        port: 465,
+        secure: true,
         auth:{
             user:process.env.GMAIL,
             pass:process.env.PASSWORD
+        },
+        tls: {
+            rejectUnauthorized: false
         }
     })
     const html =`<!DOCTYPE html>
