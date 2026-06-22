@@ -71,6 +71,35 @@ function AdminProducts() {
     }
   });
 
+  const updateProductMutation = useMutation({
+    mutationFn: async ({ id, data }) => {
+      const token = localStorage.getItem("token");
+      await axios.put(`http://localhost:3000/api/product/update/${id}`, data, {
+        headers: { token }
+      });
+    },
+    onSuccess: () => {
+      alert("Product updated!");
+      queryClient.invalidateQueries(["admin-products"]);
+    },
+    onError: (error) => {
+      alert(error.response?.data?.message || "Failed to update product");
+    }
+  });
+
+  const handleUpdate = (product) => {
+    const newPrice = window.prompt("Enter new price (leave blank to skip):", product.price);
+    const newStock = window.prompt("Enter new stock (leave blank to skip):", product.stock);
+    
+    const updateData = {};
+    if (newPrice && newPrice !== String(product.price)) updateData.price = Number(newPrice);
+    if (newStock && newStock !== String(product.stock)) updateData.stock = Number(newStock);
+    
+    if (Object.keys(updateData).length > 0) {
+      updateProductMutation.mutate({ id: product._id, data: updateData });
+    }
+  };
+
   return (
     <div className='flex gap-4 min-h-screen'>
       <SideBar />
@@ -90,17 +119,26 @@ function AdminProducts() {
                     <p className='text-gray-600 text-sm'>Stock: {product.stock} | Sold: {product.sold}</p>
                     <p className='font-bold text-green-600'>₹{product.price}</p>
                   </div>
-                  <button 
-                    onClick={() => {
-                      if(window.confirm("Are you sure you want to delete this product?")) {
-                        deleteProductMutation.mutate(product._id);
-                      }
-                    }}
-                    className='ml-auto bg-red-100 hover:bg-red-200 text-red-600 px-3 py-1 rounded-lg font-semibold transition-colors'
-                    disabled={deleteProductMutation.isPending}
-                  >
-                    Delete
-                  </button>
+                  <div className='flex flex-col gap-2 ml-auto'>
+                    <button 
+                      onClick={() => handleUpdate(product)}
+                      className='bg-blue-100 hover:bg-blue-200 text-blue-600 px-3 py-1 rounded-lg font-semibold transition-colors'
+                      disabled={updateProductMutation.isPending}
+                    >
+                      Edit
+                    </button>
+                    <button 
+                      onClick={() => {
+                        if(window.confirm("Are you sure you want to delete this product?")) {
+                          deleteProductMutation.mutate(product._id);
+                        }
+                      }}
+                      className='bg-red-100 hover:bg-red-200 text-red-600 px-3 py-1 rounded-lg font-semibold transition-colors'
+                      disabled={deleteProductMutation.isPending}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>

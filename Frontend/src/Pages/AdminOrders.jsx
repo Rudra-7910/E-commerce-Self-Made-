@@ -2,10 +2,8 @@ import React from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import SideBar from '../Components/SideBar'
-
 function AdminOrders() {
   const queryClient = useQueryClient();
-
   const fetchAllOrders = async () => {
     const token = localStorage.getItem("token");
     const response = await axios.get("http://localhost:3000/api/order/admin/all", {
@@ -13,12 +11,10 @@ function AdminOrders() {
     });
     return response.data;
   };
-
   const { data, isLoading, error } = useQuery({
     queryKey: ["admin-orders"],
     queryFn: fetchAllOrders
   });
-
   const updateStatusMutation = useMutation({
     mutationFn: async ({ id, status }) => {
       const token = localStorage.getItem("token");
@@ -53,7 +49,7 @@ function AdminOrders() {
         ) : (
           <div className='grid grid-cols-1 gap-4'>
             {data?.map((order) => (
-              <div key={order._id} className='bg-white rounded-2xl p-5 shadow-md border border-2 flex flex-col md:flex-row justify-between md:items-center'>
+              <div key={order._id} className='bg-white rounded-2xl p-5 shadow-md  border-2 flex flex-col md:flex-row justify-between md:items-center'>
                 
                 <div className='mb-4 md:mb-0'>
                   <p className='font-semibold text-lg'>Order #{order._id}</p>

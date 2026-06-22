@@ -76,6 +76,16 @@ function Register() {
                 <span className='block sm:inline'>{apiSuccess}</span>
             </div>
         )}
+        <label className='font-semibold'>Name</label>
+        <input type="text" className='border p-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400' placeholder='Full Name' 
+        {...register("name",{
+            required:"Name is Required"
+        })}/>
+        {errors.name && (
+          <p className='text-red-500 text-sm'>
+            {errors.name.message}
+          </p>
+        )}
         <label className='font-semibold'>Email</label>
         <input type="email" className='border p-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400' placeholder='Email Address' 
         {...register("email",{

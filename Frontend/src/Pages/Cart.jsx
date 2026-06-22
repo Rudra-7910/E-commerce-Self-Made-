@@ -9,7 +9,6 @@ function Cart() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm();
-
   const fetchCart = async () => {
     const token = localStorage.getItem("token");
     const response = await axios.get("http://localhost:3000/api/cart", {
@@ -17,12 +16,10 @@ function Cart() {
     });
     return response.data;
   };
-
   const { data, isLoading, error } = useQuery({
     queryKey: ["cart"],
     queryFn: fetchCart
   });
-
   const updateCartMutation = useMutation({
     mutationFn: async ({ id, action }) => {
       const token = localStorage.getItem("token");
@@ -32,7 +29,6 @@ function Cart() {
     },
     onSuccess: () => queryClient.invalidateQueries(["cart"])
   });
-
   const removeFromCartMutation = useMutation({
     mutationFn: async (id) => {
       const token = localStorage.getItem("token");
@@ -42,7 +38,6 @@ function Cart() {
     },
     onSuccess: () => queryClient.invalidateQueries(["cart"])
   });
-
   const placeOrderMutation = useMutation({
     mutationFn: async (orderData) => {
       const token = localStorage.getItem("token");
@@ -63,11 +58,9 @@ function Cart() {
       alert(error.response?.data?.message || "Failed to place order");
     }
   });
-
   const onSubmit = (formData) => {
     placeOrderMutation.mutate(formData);
   };
-
   if (isLoading) return <h1 className='text-3xl flex text-center justify-center h-full w-full'>Loading...</h1>;
   if (error) return <p className='text-red-500'>Error: {error.message}</p>;
 

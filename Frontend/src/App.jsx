@@ -10,20 +10,16 @@ import AdminProducts from './Pages/AdminProducts.jsx';
 import AdminOrders from './Pages/AdminOrders.jsx';
 import ProtectedRoute from './Components/ProtectedRoute.jsx';
 import { useAuth } from './context/AuthContext.jsx';
-
-// Wrapper to redirect logged-in users away from auth pages
 const AuthRoute = ({ children }) => {
   const { isAuth, isLoading } = useAuth();
   if (isLoading) return null;
   if (isAuth) return <Navigate to="/" replace />;
   return children;
 };
-
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public / Auth Routes */}
         <Route path="/login" element={
           <AuthRoute>
             <Login />
@@ -34,8 +30,6 @@ function App() {
             <Register />
           </AuthRoute>
         } />
-
-        {/* Protected User Routes */}
         <Route path="/" element={
           <ProtectedRoute>
             <Home />
@@ -56,8 +50,6 @@ function App() {
             <Orders />
           </ProtectedRoute>
         } />
-
-        {/* Protected Admin Routes */}
         <Route path="/admin/products" element={
           <ProtectedRoute adminOnly={true}>
             <AdminProducts />
@@ -72,5 +64,4 @@ function App() {
     </BrowserRouter>
   )
 }
-
 export default App

@@ -3,7 +3,7 @@ import { cloudinary } from "../utils/cloudinary.js";
 import mongoose from"mongoose"
 import TryCatch from "../utils/TryCatch.js";
 import { Product } from "../models/products.js";
-export const createProduct=TryCatch(async(req,res)=>{
+export const createProduct=TryCatch(async(req,res)=>{ 
     if(req.user.role!=="admin")
     {
         return res.status(403).json({message:"You are not Admin"})
@@ -122,8 +122,6 @@ export const deleteProduct = TryCatch(async (req, res) => {
     if (!product) {
         return res.status(404).json({ message: "Product not found" });
     }
-
-    // Delete images from Cloudinary
     if (product.images && product.images.length > 0) {
         for (const img of product.images) {
             if (img.id) {
