@@ -13,7 +13,7 @@ function Home() {
     return () => clearTimeout(timer)
   }, [searchInput])
   const fetchProducts = async () => {
-    const response = await axios.get(`http://localhost:3000/api/product/all?search=${search}&category=${category}`)
+    const response = await axios.get(`${import.meta.env.PROD ? 'https://e-commerce-self-made-production.up.railway.app' : 'http://localhost:3000'}/api/product/all?search=${search}&category=${category}`)
     return response.data
   }
   const { data, isLoading, error } = useQuery({
@@ -24,7 +24,7 @@ function Home() {
   const addToCartMutation = useMutation({
     mutationFn: async (productId) => {
       const token = localStorage.getItem("token")
-      const response = await axios.post("http://localhost:3000/api/cart/add", { product: productId }, {
+      const response = await axios.post(`${import.meta.env.PROD ? 'https://e-commerce-self-made-production.up.railway.app' : 'http://localhost:3000'}/api/cart/add`, { product: productId }, {
         headers: { token }
       })
       return response.data

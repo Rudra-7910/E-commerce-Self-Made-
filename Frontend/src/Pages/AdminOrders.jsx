@@ -6,7 +6,7 @@ function AdminOrders() {
   const queryClient = useQueryClient();
   const fetchAllOrders = async () => {
     const token = localStorage.getItem("token");
-    const response = await axios.get("http://localhost:3000/api/order/admin/all", {
+    const response = await axios.get(`${import.meta.env.PROD ? 'https://e-commerce-self-made-production.up.railway.app' : 'http://localhost:3000'}/api/order/admin/all`, {
       headers: { token }
     });
     return response.data;
@@ -18,7 +18,7 @@ function AdminOrders() {
   const updateStatusMutation = useMutation({
     mutationFn: async ({ id, status }) => {
       const token = localStorage.getItem("token");
-      await axios.put(`http://localhost:3000/api/order/status/${id}`, { status }, {
+      await axios.put(`${import.meta.env.PROD ? 'https://e-commerce-self-made-production.up.railway.app' : 'http://localhost:3000'}/api/order/status/${id}`, { status }, {
         headers: { token }
       });
     },

@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
       return;
     }
     try {
-      const response = await axios.get("http://localhost:3000/api/user/me", {
+      const response = await axios.get(`${import.meta.env.PROD ? 'https://e-commerce-self-made-production.up.railway.app' : 'http://localhost:3000'}/api/user/me`, {
         headers: { token },
       });
       setUser(response.data);

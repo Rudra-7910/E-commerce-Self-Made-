@@ -9,7 +9,7 @@ function AdminProducts() {
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
   const fetchProducts = async () => {
-    const response = await axios.get("http://localhost:3000/api/product/all");
+    const response = await axios.get(`${import.meta.env.PROD ? 'https://e-commerce-self-made-production.up.railway.app' : 'http://localhost:3000'}/api/product/all`);
     return response.data;
   };
 
@@ -33,7 +33,7 @@ function AdminProducts() {
         formPayload.append("files", file); // The backend expects 'files' array in multer
       });
 
-      const response = await axios.post("http://localhost:3000/api/product/new", formPayload, {
+      const response = await axios.post(`${import.meta.env.PROD ? 'https://e-commerce-self-made-production.up.railway.app' : 'http://localhost:3000'}/api/product/new`, formPayload, {
         headers: { 
           token,
           "Content-Type": "multipart/form-data"
@@ -58,7 +58,7 @@ function AdminProducts() {
   const deleteProductMutation = useMutation({
     mutationFn: async (productId) => {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:3000/api/product/${productId}`, {
+      await axios.delete(`${import.meta.env.PROD ? 'https://e-commerce-self-made-production.up.railway.app' : 'http://localhost:3000'}/api/product/${productId}`, {
         headers: { token }
       });
     },
@@ -74,7 +74,7 @@ function AdminProducts() {
   const updateProductMutation = useMutation({
     mutationFn: async ({ id, data }) => {
       const token = localStorage.getItem("token");
-      await axios.put(`http://localhost:3000/api/product/update/${id}`, data, {
+      await axios.put(`${import.meta.env.PROD ? 'https://e-commerce-self-made-production.up.railway.app' : 'http://localhost:3000'}/api/product/update/${id}`, data, {
         headers: { token }
       });
     },
